@@ -5,7 +5,7 @@
 [![@latest](https://img.shields.io/npm/v/octokit-plugin-unique-issue.svg)](https://www.npmjs.com/package/octokit-plugin-unique-issue)
 [![Build Status](https://github.com/tmelliottjr/octokit-plugin-unique-issue/workflows/Test/badge.svg)](https://github.com/tmelliottjr/octokit-plugin-unique-issue/actions?query=workflow%3ATest+branch%3Amain)
 
-## usage
+## Usage
 
 <table>
 <tbody valign=top align=left>
@@ -42,16 +42,40 @@ const { uniqueIssue } = require("octokit-plugin-unique-issue");
 </tbody>
 </table>
 
+### `createOrUpdateUniqueIssue`
+
+Create a unique issue based on the provided `identifier`. When an issue with the same identifier already exists an error will be thrown. Setting `close_previous` will result in the previous issue being closed, before creating a new one.
+
+`createOrUpdateUniqueIssue` accepts all supported parameters for creating an issue with the [GitHub REST API](https://docs.github.com/en/rest/issues/issues#create-an-issue).
+
+### Update Issue
+
 ```js
 const MyOctokit = Octokit.plugin(uniqueIssue);
 const octokit = new MyOctokit({ auth: "secret123" });
 
-const response = await octokit.createUniqueIssue({
+const response = await octokit.createOrUpdateUniqueIssue({
   identifier: "super-unique-identifier",
   owner: "tmelliottjr",
   repo: "octokit-plugin-unique-issue",
   title: "My unique issue",
   body: "The body of my unique issue!",
+});
+```
+
+### Create and Close Previous Issue
+
+```js
+const MyOctokit = Octokit.plugin(uniqueIssue);
+const octokit = new MyOctokit({ auth: "secret123" });
+
+const response = await octokit.createOrUpdateUniqueIssue({
+  identifier: "super-unique-identifier",
+  owner: "tmelliottjr",
+  repo: "octokit-plugin-unique-issue",
+  title: "My unique issue",
+  body: "The body of my unique issue!",
+  close_previous: true,
 });
 ```
 
@@ -74,13 +98,24 @@ const response = await octokit.createUniqueIssue({
   <tbody align=left valign=top>
     <tr>
       <th>
-        <code>option name</code>
+        <code>identifier</code>
       </th>
       <th>
-        <code>option type</code>
+        <code>string</code>
       </th>
       <td>
-        <strong>Required.</strong> Description here
+        <strong>Required.</strong> Unique identifier for the issue.
+      </td>
+    </tr>
+        <tr>
+      <th>
+        <code>close_previous</code>
+      </th>
+      <th>
+        <code>boolean</code>
+      </th>
+      <td>
+        <strong>Optional.</strong> Defaults to <code>false</code>. Close existing issue(s) with <code>identifier</code>
       </td>
     </tr>
   </tbody>
