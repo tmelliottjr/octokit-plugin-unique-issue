@@ -120,7 +120,15 @@ const response = await octokit.createOrUpdateUniqueIssue({
     </tr>
   </tbody>
 </table>
-  
+
+## How it Works
+
+`createOrUpdateUniqueIssue` will add an html comment to an issue's body containing the unique identifier provided.
+
+```html
+<!-- OCTOKIT_UNIQUE_ISSUE_ID=super-unique-identifier -->
+```
+
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md)

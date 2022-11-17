@@ -17,4 +17,11 @@ describe("Smoke test", () => {
       new TestOctokit();
     }).not.toThrow();
   });
+
+  it("[createOrUpdateUniqueIssue] is a function", () => {
+    const TestOctokit = Octokit.plugin(uniqueIssue);
+    const testOctokit = new TestOctokit();
+
+    expect(testOctokit.createOrUpdateUniqueIssue).toBeInstanceOf(Function);
+  });
 });

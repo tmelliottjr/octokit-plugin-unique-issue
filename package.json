@@ -92,5 +92,8 @@
         }
       ]
     ]
+  },
+  "dependencies": {
+    "@octokit/types": "^8.0.0"
   }
 }
