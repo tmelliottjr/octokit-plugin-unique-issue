@@ -86,7 +86,7 @@ export function uniqueIssue(octokit: Octokit) {
       return await octokit.request("POST /repos/{owner}/{repo}/issues", {
         owner,
         repo,
-        ...(body !== undefined ? { body: body + `\n${commentMarker}` } : {}),
+        body: body !== undefined ? body + `\n${commentMarker}` : commentMarker,
         ...rest,
       });
     },
