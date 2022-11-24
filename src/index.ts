@@ -34,7 +34,7 @@ export function uniqueIssue(octokit: Octokit) {
         });
       }
 
-      const term = OCTOKIT_UNIQUE_ISSUE_ID_PREFIX + identifier;
+      const term = `${OCTOKIT_UNIQUE_ISSUE_ID_PREFIX}"${identifier}"`;
 
       // MDAST compatible comment marker; see https://github.com/syntax-tree/mdast-comment-marker
       const commentMarker = `<!-- ${term} -->`;

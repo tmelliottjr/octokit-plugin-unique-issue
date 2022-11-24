@@ -123,10 +123,10 @@ const response = await octokit.createOrUpdateUniqueIssue({
 
 ## How it Works
 
-`createOrUpdateUniqueIssue` will add an html comment to an issue's body containing the unique identifier provided.
+`createOrUpdateUniqueIssue` will add an [MDAST Comment Marker](https://github.com/syntax-tree/mdast-comment-marker) to an issue's body containing the unique identifier provided.
 
 ```html
-<!-- OCTOKIT_UNIQUE_ISSUE_ID=super-unique-identifier -->
+<!-- octokit-unique-issue id="super-unique-identifier" -->
 ```
 
 ## Contributing

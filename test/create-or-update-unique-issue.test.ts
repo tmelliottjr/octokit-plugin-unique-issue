@@ -8,15 +8,15 @@ const MyOctokit = Octokit.plugin(uniqueIssue).defaults({
   userAgent: "test",
 });
 
+const SEARCH_QUERY_PART = escape(
+  '"octokit-unique-issue id="identifier"" is:issue is:open repo:owner/repo'
+);
+
 describe("createOrUpdateUniqueIssue", () => {
   it("should create an issue if no existing issues are found", async () => {
-    const searchQueryPart = escape(
-      '"octokit-unique-issue id=identifier" is:issue is:open repo:owner/repo'
-    );
-
     const mock = fetchMock
       .sandbox()
-      .getOnce(`https://api.github.com/search/issues?q=${searchQueryPart}`, {
+      .getOnce(`https://api.github.com/search/issues?q=${SEARCH_QUERY_PART}`, {
         status: 200,
         body: {
           total_count: 0,
@@ -34,7 +34,7 @@ describe("createOrUpdateUniqueIssue", () => {
         {
           body: {
             title: "title",
-            body: "body\n<!-- octokit-unique-issue id=identifier -->",
+            body: 'body\n<!-- octokit-unique-issue id="identifier" -->',
           },
         }
       );
@@ -57,13 +57,9 @@ describe("createOrUpdateUniqueIssue", () => {
   });
 
   it("should create an issue when no body is provided", async () => {
-    const searchQueryPart = escape(
-      '"octokit-unique-issue id=identifier" is:issue is:open repo:owner/repo'
-    );
-
     const mock = fetchMock
       .sandbox()
-      .getOnce(`https://api.github.com/search/issues?q=${searchQueryPart}`, {
+      .getOnce(`https://api.github.com/search/issues?q=${SEARCH_QUERY_PART}`, {
         status: 200,
         body: {
           total_count: 0,
@@ -81,7 +77,7 @@ describe("createOrUpdateUniqueIssue", () => {
         {
           body: {
             title: "title",
-            body: "<!-- octokit-unique-issue id=identifier -->",
+            body: '<!-- octokit-unique-issue id="identifier" -->',
           },
         }
       );
@@ -103,13 +99,9 @@ describe("createOrUpdateUniqueIssue", () => {
   });
 
   it("should create an issue when existing issues are found and `update_previous` is false", async () => {
-    const searchQueryPart = escape(
-      '"octokit-unique-issue id=identifier" is:issue is:open repo:owner/repo'
-    );
-
     const mock = fetchMock
       .sandbox()
-      .getOnce(`https://api.github.com/search/issues?q=${searchQueryPart}`, {
+      .getOnce(`https://api.github.com/search/issues?q=${SEARCH_QUERY_PART}`, {
         status: 200,
         body: {
           total_count: 1,
@@ -140,7 +132,7 @@ describe("createOrUpdateUniqueIssue", () => {
         {
           body: {
             title: "title",
-            body: "body\n<!-- octokit-unique-issue id=identifier -->",
+            body: 'body\n<!-- octokit-unique-issue id="identifier" -->',
           },
         }
       );
@@ -164,13 +156,9 @@ describe("createOrUpdateUniqueIssue", () => {
   });
 
   it("should throw when multiple existing issues are found and `update_previous` is true", async () => {
-    const searchQueryPart = escape(
-      '"octokit-unique-issue id=identifier" is:issue is:open repo:owner/repo'
-    );
-
     const mock = fetchMock
       .sandbox()
-      .getOnce(`https://api.github.com/search/issues?q=${searchQueryPart}`, {
+      .getOnce(`https://api.github.com/search/issues?q=${SEARCH_QUERY_PART}`, {
         status: 200,
         body: {
           total_count: 2,
@@ -203,13 +191,9 @@ describe("createOrUpdateUniqueIssue", () => {
   });
 
   it("should update an existing issue if one is found and `update_previous` is true", async () => {
-    const searchQueryPart = escape(
-      '"octokit-unique-issue id=identifier" is:issue is:open repo:owner/repo'
-    );
-
     const mock = fetchMock
       .sandbox()
-      .getOnce(`https://api.github.com/search/issues?q=${searchQueryPart}`, {
+      .getOnce(`https://api.github.com/search/issues?q=${SEARCH_QUERY_PART}`, {
         status: 200,
         body: {
           total_count: 1,
@@ -231,7 +215,7 @@ describe("createOrUpdateUniqueIssue", () => {
         {
           body: {
             title: "title",
-            body: "body\n<!-- octokit-unique-issue id=identifier -->",
+            body: 'body\n<!-- octokit-unique-issue id="identifier" -->',
           },
         }
       );
@@ -254,13 +238,9 @@ describe("createOrUpdateUniqueIssue", () => {
   });
 
   it("should update an existing issue when no body is provided", async () => {
-    const searchQueryPart = escape(
-      '"octokit-unique-issue id=identifier" is:issue is:open repo:owner/repo'
-    );
-
     const mock = fetchMock
       .sandbox()
-      .getOnce(`https://api.github.com/search/issues?q=${searchQueryPart}`, {
+      .getOnce(`https://api.github.com/search/issues?q=${SEARCH_QUERY_PART}`, {
         status: 200,
         body: {
           total_count: 1,
