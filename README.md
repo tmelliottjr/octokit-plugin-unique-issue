@@ -44,9 +44,13 @@ const { uniqueIssue } = require("octokit-plugin-unique-issue");
 
 ### `createOrUpdateUniqueIssue`
 
-Create a unique issue based on the provided `identifier`. When an issue with the same identifier already exists an error will be thrown. Setting `close_previous` will result in the previous issue being closed, before creating a new one.
+Creates or updates an issue with the provided `identifier`.
 
-`createOrUpdateUniqueIssue` accepts all supported parameters for creating an issue with the [GitHub REST API](https://docs.github.com/en/rest/issues/issues#create-an-issue).
+By default, when `close_previous` is `false` and a **_single_** issue with the provided identifier is found, that issue will be updated, otherwise a new issue is created. An error will be thrown if more than one issue with the provided identifier is found.
+
+When `close_previous` is `true`, all existing issues with the provided identifier will be closed before creating a new issue.
+
+`createOrUpdateUniqueIssue` accepts all supported parameters for [creating](https://docs.github.com/en/rest/issues/issues#create-an-issue) or [updating](https://docs.github.com/en/rest/issues/issues#update-an-issue) an issue with the GitHub REST API.
 
 ### Update Issue
 
