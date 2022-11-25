@@ -23,7 +23,7 @@ export function uniqueIssue(octokit: Octokit) {
         owner,
         repo,
         identifier,
-        close_previous = true,
+        close_previous = false,
         body,
         ...rest
       } = options;
@@ -45,7 +45,7 @@ export function uniqueIssue(octokit: Octokit) {
         q: `"${term}" is:issue is:open repo:${owner}/${repo}`,
       });
 
-      if (total_count === 1 && close_previous) {
+      if (total_count === 1 && !close_previous) {
         return await octokit.request(
           "PATCH /repos/{owner}/{repo}/issues/{issue_number}",
           {
@@ -60,7 +60,7 @@ export function uniqueIssue(octokit: Octokit) {
         );
       }
 
-      if (total_count > 1 && close_previous) {
+      if (total_count > 1 && !close_previous) {
         throw Object.assign(
           new Error("More than 1 issue was found with identifier."),
           {

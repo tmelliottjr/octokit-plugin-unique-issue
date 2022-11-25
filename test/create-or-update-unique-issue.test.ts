@@ -98,7 +98,7 @@ describe("createOrUpdateUniqueIssue", () => {
     expect(data).toStrictEqual({ id: 1 });
   });
 
-  it("should create an issue when existing issues are found and `close_previous` is false", async () => {
+  it("should create an issue when existing issues are found and `close_previous` is true", async () => {
     const mock = fetchMock
       .sandbox()
       .getOnce(`https://api.github.com/search/issues?q=${SEARCH_QUERY_PART}`, {
@@ -149,13 +149,13 @@ describe("createOrUpdateUniqueIssue", () => {
       title: "title",
       body: "body",
       identifier: "identifier",
-      close_previous: false,
+      close_previous: true,
     });
 
     expect(data).toStrictEqual({ id: 1 });
   });
 
-  it("should throw when multiple existing issues are found and `close_previous` is true", async () => {
+  it("should throw when multiple existing issues are found and `close_previous` is false", async () => {
     const mock = fetchMock
       .sandbox()
       .getOnce(`https://api.github.com/search/issues?q=${SEARCH_QUERY_PART}`, {
@@ -190,7 +190,7 @@ describe("createOrUpdateUniqueIssue", () => {
     }).rejects.toThrow("More than 1 issue was found with identifier.");
   });
 
-  it("should update an existing issue if one is found and `close_previous` is true", async () => {
+  it("should update an existing issue if one is found and `close_previous` is false", async () => {
     const mock = fetchMock
       .sandbox()
       .getOnce(`https://api.github.com/search/issues?q=${SEARCH_QUERY_PART}`, {
