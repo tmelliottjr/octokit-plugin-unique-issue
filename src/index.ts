@@ -7,7 +7,7 @@ const OCTOKIT_UNIQUE_ISSUE_ID_PREFIX = "octokit-unique-issue id=";
 type CreateOrUpdateUniqueIssueOptionsT =
   Endpoints["POST /repos/{owner}/{repo}/issues"]["parameters"] & {
     identifier: string;
-    update_previous?: boolean;
+    close_previous?: boolean;
   };
 
 type CreateOrUpdateUniqueIssueResponseT =
@@ -23,7 +23,7 @@ export function uniqueIssue(octokit: Octokit) {
         owner,
         repo,
         identifier,
-        update_previous = true,
+        close_previous = true,
         body,
         ...rest
       } = options;
@@ -45,7 +45,7 @@ export function uniqueIssue(octokit: Octokit) {
         q: `"${term}" is:issue is:open repo:${owner}/${repo}`,
       });
 
-      if (total_count === 1 && update_previous) {
+      if (total_count === 1 && close_previous) {
         return await octokit.request(
           "PATCH /repos/{owner}/{repo}/issues/{issue_number}",
           {
@@ -53,14 +53,14 @@ export function uniqueIssue(octokit: Octokit) {
             repo,
             issue_number: items[0].number,
             ...(body !== undefined
-              ? { body: body + `\n${commentMarker}` }
+              ? { body: body + `\n\n${commentMarker}` }
               : {}),
             ...rest,
           }
         );
       }
 
-      if (total_count > 1 && update_previous) {
+      if (total_count > 1 && close_previous) {
         throw Object.assign(
           new Error("More than 1 issue was found with identifier."),
           {
@@ -86,7 +86,8 @@ export function uniqueIssue(octokit: Octokit) {
       return await octokit.request("POST /repos/{owner}/{repo}/issues", {
         owner,
         repo,
-        body: body !== undefined ? body + `\n${commentMarker}` : commentMarker,
+        body:
+          body !== undefined ? body + `\n\n${commentMarker}` : commentMarker,
         ...rest,
       });
     },
