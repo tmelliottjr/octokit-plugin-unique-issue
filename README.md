@@ -115,7 +115,7 @@ const response = await octokit.createOrUpdateUniqueIssue({
         <code>boolean</code>
       </th>
       <td>
-        <strong>Optional.</strong> Defaults to <code>false</code>. Close existing issue(s) with <code>identifier</code>
+        <strong>Optional.</strong> Defaults to <code>false</code>. Close existing issue(s) with <code>identifier</code>.
       </td>
     </tr>
   </tbody>
