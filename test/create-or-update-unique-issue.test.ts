@@ -45,15 +45,18 @@ describe("createOrUpdateUniqueIssue", () => {
       },
     });
 
-    const { data } = await octokit.createOrUpdateUniqueIssue({
-      owner: "owner",
-      repo: "repo",
-      title: "title",
-      body: "body",
-      identifier: "identifier",
-    });
+    const { updated, closed_issues, data } =
+      await octokit.createOrUpdateUniqueIssue({
+        owner: "owner",
+        repo: "repo",
+        title: "title",
+        body: "body",
+        identifier: "identifier",
+      });
 
     expect(data).toStrictEqual({ id: 1 });
+    expect(updated).toBe(false);
+    expect(closed_issues.length).toBe(0);
   });
 
   it("should create an issue when no body is provided", async () => {
@@ -88,14 +91,17 @@ describe("createOrUpdateUniqueIssue", () => {
       },
     });
 
-    const { data } = await octokit.createOrUpdateUniqueIssue({
-      owner: "owner",
-      repo: "repo",
-      title: "title",
-      identifier: "identifier",
-    });
+    const { updated, closed_issues, data } =
+      await octokit.createOrUpdateUniqueIssue({
+        owner: "owner",
+        repo: "repo",
+        title: "title",
+        identifier: "identifier",
+      });
 
     expect(data).toStrictEqual({ id: 1 });
+    expect(updated).toBe(false);
+    expect(closed_issues.length).toBe(0);
   });
 
   it("should create an issue when existing issues are found and `close_previous` is true", async () => {
@@ -143,16 +149,19 @@ describe("createOrUpdateUniqueIssue", () => {
       },
     });
 
-    const { data } = await octokit.createOrUpdateUniqueIssue({
-      owner: "owner",
-      repo: "repo",
-      title: "title",
-      body: "body",
-      identifier: "identifier",
-      close_previous: true,
-    });
+    const { updated, closed_issues, data } =
+      await octokit.createOrUpdateUniqueIssue({
+        owner: "owner",
+        repo: "repo",
+        title: "title",
+        body: "body",
+        identifier: "identifier",
+        close_previous: true,
+      });
 
     expect(data).toStrictEqual({ id: 1 });
+    expect(updated).toBe(false);
+    expect(closed_issues).toStrictEqual([{ number: 123 }]);
   });
 
   it("should throw when multiple existing issues are found and `close_previous` is false", async () => {
@@ -226,15 +235,18 @@ describe("createOrUpdateUniqueIssue", () => {
       },
     });
 
-    const { data } = await octokit.createOrUpdateUniqueIssue({
-      owner: "owner",
-      repo: "repo",
-      title: "title",
-      body: "body",
-      identifier: "identifier",
-    });
+    const { updated, closed_issues, data } =
+      await octokit.createOrUpdateUniqueIssue({
+        owner: "owner",
+        repo: "repo",
+        title: "title",
+        body: "body",
+        identifier: "identifier",
+      });
 
     expect(data).toStrictEqual({ id: 1 });
+    expect(updated).toBe(true);
+    expect(closed_issues.length).toBe(0);
   });
 
   it("should update an existing issue when no body is provided", async () => {
@@ -272,14 +284,17 @@ describe("createOrUpdateUniqueIssue", () => {
       },
     });
 
-    const { data } = await octokit.createOrUpdateUniqueIssue({
-      owner: "owner",
-      repo: "repo",
-      title: "title",
-      identifier: "identifier",
-    });
+    const { updated, closed_issues, data } =
+      await octokit.createOrUpdateUniqueIssue({
+        owner: "owner",
+        repo: "repo",
+        title: "title",
+        identifier: "identifier",
+      });
 
     expect(data).toStrictEqual({ id: 1 });
+    expect(updated).toBe(true);
+    expect(closed_issues.length).toBe(0);
   });
 
   it("should throw when `identifier` is not provided", async () => {
