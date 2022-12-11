@@ -10,13 +10,19 @@ type CreateOrUpdateUniqueIssueOptionsT =
     close_previous?: boolean;
   };
 
-type CreateOrUpdateUniqueIssueResponseT = (
-  | Endpoints["POST /repos/{owner}/{repo}/issues"]["response"]
-  | Endpoints["PATCH /repos/{owner}/{repo}/issues/{issue_number}"]["response"]
-) & {
-  updated: boolean;
-  closed_issues: Endpoints["GET /search/issues"]["response"]["data"]["items"];
-};
+type CreatedIssueResponseT =
+  Endpoints["POST /repos/{owner}/{repo}/issues"]["response"] & {
+    updated: false;
+    closed_issues: Endpoints["GET /search/issues"]["response"]["data"]["items"];
+  };
+type UpdatedIssueResponseT =
+  Endpoints["PATCH /repos/{owner}/{repo}/issues/{issue_number}"]["response"] & {
+    updated: true;
+    closed_issues: [...[]];
+  };
+type CreateOrUpdateUniqueIssueResponseT =
+  | CreatedIssueResponseT
+  | UpdatedIssueResponseT;
 
 export function uniqueIssue(octokit: Octokit) {
   return {
