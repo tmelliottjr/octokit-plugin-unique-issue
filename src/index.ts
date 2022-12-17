@@ -10,9 +10,19 @@ type CreateOrUpdateUniqueIssueOptionsT =
     close_previous?: boolean;
   };
 
+type CreatedIssueResponseT =
+  Endpoints["POST /repos/{owner}/{repo}/issues"]["response"] & {
+    updated: false;
+    closed_issues: Endpoints["GET /search/issues"]["response"]["data"]["items"];
+  };
+type UpdatedIssueResponseT =
+  Endpoints["PATCH /repos/{owner}/{repo}/issues/{issue_number}"]["response"] & {
+    updated: true;
+    closed_issues: [...[]];
+  };
 type CreateOrUpdateUniqueIssueResponseT =
-  | Endpoints["POST /repos/{owner}/{repo}/issues"]["response"]
-  | Endpoints["PATCH /repos/{owner}/{repo}/issues/{issue_number}"]["response"];
+  | CreatedIssueResponseT
+  | UpdatedIssueResponseT;
 
 export function uniqueIssue(octokit: Octokit) {
   return {
@@ -46,7 +56,7 @@ export function uniqueIssue(octokit: Octokit) {
       });
 
       if (total_count === 1 && !close_previous) {
-        return await octokit.request(
+        const response = await octokit.request(
           "PATCH /repos/{owner}/{repo}/issues/{issue_number}",
           {
             owner,
@@ -58,6 +68,12 @@ export function uniqueIssue(octokit: Octokit) {
             ...rest,
           }
         );
+
+        return {
+          ...response,
+          updated: true,
+          closed_issues: [],
+        };
       }
 
       if (total_count > 1 && !close_previous) {
@@ -83,13 +99,22 @@ export function uniqueIssue(octokit: Octokit) {
         );
       }
 
-      return await octokit.request("POST /repos/{owner}/{repo}/issues", {
-        owner,
-        repo,
-        body:
-          body !== undefined ? body + `\n\n${commentMarker}` : commentMarker,
-        ...rest,
-      });
+      const response = await octokit.request(
+        "POST /repos/{owner}/{repo}/issues",
+        {
+          owner,
+          repo,
+          body:
+            body !== undefined ? body + `\n\n${commentMarker}` : commentMarker,
+          ...rest,
+        }
+      );
+
+      return {
+        ...response,
+        updated: false,
+        closed_issues: items.map((item) => item),
+      };
     },
   };
 }

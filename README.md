@@ -52,19 +52,23 @@ When `close_previous` is `true`, all existing issues with the provided identifie
 
 `createOrUpdateUniqueIssue` accepts all supported parameters for [creating](https://docs.github.com/en/rest/issues/issues#create-an-issue) or [updating](https://docs.github.com/en/rest/issues/issues#update-an-issue) an issue with the GitHub REST API.
 
-### Update Issue
+### Create or Update Issue
 
 ```js
 const MyOctokit = Octokit.plugin(uniqueIssue);
 const octokit = new MyOctokit({ auth: "secret123" });
 
-const response = await octokit.createOrUpdateUniqueIssue({
+const { data, updated } = await octokit.createOrUpdateUniqueIssue({
   identifier: "super-unique-identifier",
   owner: "tmelliottjr",
   repo: "octokit-plugin-unique-issue",
   title: "My unique issue",
   body: "The body of my unique issue!",
 });
+
+const action = updated ? "Updated" : "Created";
+
+console.log(`${action} issue: ${data.number}`);
 ```
 
 ### Create and Close Previous Issue
@@ -73,14 +77,23 @@ const response = await octokit.createOrUpdateUniqueIssue({
 const MyOctokit = Octokit.plugin(uniqueIssue);
 const octokit = new MyOctokit({ auth: "secret123" });
 
-const response = await octokit.createOrUpdateUniqueIssue({
-  identifier: "super-unique-identifier",
-  owner: "tmelliottjr",
-  repo: "octokit-plugin-unique-issue",
-  title: "My unique issue",
-  body: "The body of my unique issue!",
-  close_previous: true,
-});
+const { data, updated, closed_issues } =
+  await octokit.createOrUpdateUniqueIssue({
+    identifier: "super-unique-identifier",
+    owner: "tmelliottjr",
+    repo: "octokit-plugin-unique-issue",
+    title: "My unique issue",
+    body: "The body of my unique issue!",
+    close_previous: true,
+  });
+
+console.log(`Created issue: ${data.number}`);
+
+if (closed_issues.length) {
+  console.log(
+    `Closed issue(s) ${closed_issues.map((issue) => issue.number).join(", ")}`
+  );
+}
 ```
 
 ## Options
