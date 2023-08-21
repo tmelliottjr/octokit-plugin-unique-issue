@@ -96,6 +96,6 @@
     ]
   },
   "dependencies": {
-    "@octokit/types": "^8.0.0"
+    "@octokit/types": "^11.1.0"
   }
 }
