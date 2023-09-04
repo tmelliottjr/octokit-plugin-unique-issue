@@ -91,7 +91,7 @@ console.log(`Created issue: ${data.number}`);
 
 if (closed_issues.length) {
   console.log(
-    `Closed issue(s) ${closed_issues.map((issue) => issue.number).join(", ")}`
+    `Closed issue(s) ${closed_issues.map((issue) => issue.number).join(", ")}`,
   );
 }
 ```

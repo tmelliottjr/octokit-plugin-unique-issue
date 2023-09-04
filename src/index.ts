@@ -27,7 +27,7 @@ type CreateOrUpdateUniqueIssueResponseT =
 export function uniqueIssue(octokit: Octokit) {
   return {
     async createOrUpdateUniqueIssue(
-      options: CreateOrUpdateUniqueIssueOptionsT
+      options: CreateOrUpdateUniqueIssueOptionsT,
     ): Promise<CreateOrUpdateUniqueIssueResponseT> {
       const {
         owner,
@@ -66,7 +66,7 @@ export function uniqueIssue(octokit: Octokit) {
               ? { body: body + `\n\n${commentMarker}` }
               : {}),
             ...rest,
-          }
+          },
         );
 
         return {
@@ -83,7 +83,7 @@ export function uniqueIssue(octokit: Octokit) {
             identifier,
             issue_numbers: items.map((item) => item.number).join(),
             name: "DuplicateIssueError",
-          }
+          },
         );
       }
 
@@ -95,7 +95,7 @@ export function uniqueIssue(octokit: Octokit) {
             repo,
             issue_number: item.number,
             state: "closed",
-          }
+          },
         );
       }
 
@@ -107,7 +107,7 @@ export function uniqueIssue(octokit: Octokit) {
           body:
             body !== undefined ? body + `\n\n${commentMarker}` : commentMarker,
           ...rest,
-        }
+        },
       );
 
       return {

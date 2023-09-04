@@ -9,7 +9,7 @@ const MyOctokit = Octokit.plugin(uniqueIssue).defaults({
 });
 
 const SEARCH_QUERY_PART = escape(
-  '"octokit-unique-issue id="identifier"" is:issue is:open repo:owner/repo'
+  '"octokit-unique-issue id="identifier"" is:issue is:open repo:owner/repo',
 );
 
 describe("createOrUpdateUniqueIssue", () => {
@@ -36,7 +36,7 @@ describe("createOrUpdateUniqueIssue", () => {
             title: "title",
             body: 'body\n\n<!-- octokit-unique-issue id="identifier" -->',
           },
-        }
+        },
       );
 
     const octokit = new MyOctokit({
@@ -82,7 +82,7 @@ describe("createOrUpdateUniqueIssue", () => {
             title: "title",
             body: '<!-- octokit-unique-issue id="identifier" -->',
           },
-        }
+        },
       );
 
     const octokit = new MyOctokit({
@@ -125,7 +125,7 @@ describe("createOrUpdateUniqueIssue", () => {
         },
         {
           body: { state: "closed" },
-        }
+        },
       )
       .postOnce(
         "https://api.github.com/repos/owner/repo/issues",
@@ -140,7 +140,7 @@ describe("createOrUpdateUniqueIssue", () => {
             title: "title",
             body: 'body\n\n<!-- octokit-unique-issue id="identifier" -->',
           },
-        }
+        },
       );
 
     const octokit = new MyOctokit({
@@ -226,7 +226,7 @@ describe("createOrUpdateUniqueIssue", () => {
             title: "title",
             body: 'body\n\n<!-- octokit-unique-issue id="identifier" -->',
           },
-        }
+        },
       );
 
     const octokit = new MyOctokit({
@@ -275,7 +275,7 @@ describe("createOrUpdateUniqueIssue", () => {
           body: {
             title: "title",
           },
-        }
+        },
       );
 
     const octokit = new MyOctokit({
