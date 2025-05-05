@@ -6,6 +6,7 @@ import {
 import { VERSION } from "./version";
 import { composeUniqueIssue } from "./compose-unique-issue";
 
+export { composeUniqueIssue } from "./compose-unique-issue";
 
 export function uniqueIssue(octokit: Octokit) {
   return {
