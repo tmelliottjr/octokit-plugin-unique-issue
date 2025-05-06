@@ -6,7 +6,7 @@ import {
 
 const OCTOKIT_UNIQUE_ISSUE_ID_PREFIX = "octokit-unique-issue id=";
 
-export async function composeUniqueIssue(
+export async function composeCreateOrUpdateUniqueIssue(
   octokit: Octokit,
   options: CreateOrUpdateUniqueIssueOptionsT,
 ): Promise<CreateOrUpdateUniqueIssueResponseT> {

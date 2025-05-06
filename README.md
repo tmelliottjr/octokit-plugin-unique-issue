@@ -22,7 +22,7 @@ Load `octokit-plugin-unique-issue` and [`@octokit/core`](https://github.com/octo
   import { Octokit } from "https://cdn.skypack.dev/@octokit/core";
   import {
     uniqueIssue,
-    composeUniqueIssue,
+    composeCreateOrUpdateUniqueIssue,
   } from "https://cdn.skypack.dev/octokit-plugin-unique-issue";
 </script>
 ```
@@ -40,7 +40,7 @@ Install with `npm install @octokit/core octokit-plugin-unique-issue`. Optionally
 const { Octokit } = require("@octokit/core");
 const {
   uniqueIssue,
-  composeUniqueIssue,
+  composeCreateOrUpdateUniqueIssue,
 } = require("octokit-plugin-unique-issue");
 ```
 
@@ -107,7 +107,7 @@ if (closed_issues.length) {
 ```js
 const octokit = new Octokit({ auth: "secret123" });
 
-const { data, updated } = await composeUniqueIssue(octokit, {
+const { data, updated } = await composeCreateOrUpdateUniqueIssue(octokit, {
   identifier: "super-unique-identifier",
   owner: "tmelliottjr",
   repo: "octokit-plugin-unique-issue",

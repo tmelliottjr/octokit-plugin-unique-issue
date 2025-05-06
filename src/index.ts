@@ -4,16 +4,16 @@ import {
   CreateOrUpdateUniqueIssueResponseT,
 } from "./types";
 import { VERSION } from "./version";
-import { composeUniqueIssue } from "./compose-unique-issue";
+import { composeCreateOrUpdateUniqueIssue } from "./compose-unique-issue";
 
-export { composeUniqueIssue } from "./compose-unique-issue";
+export { composeCreateOrUpdateUniqueIssue } from "./compose-unique-issue";
 
 export function uniqueIssue(octokit: Octokit) {
   return {
     async createOrUpdateUniqueIssue(
       options: CreateOrUpdateUniqueIssueOptionsT,
     ): Promise<CreateOrUpdateUniqueIssueResponseT> {
-      return composeUniqueIssue(octokit, options);
+      return composeCreateOrUpdateUniqueIssue(octokit, options);
     },
   };
 }
