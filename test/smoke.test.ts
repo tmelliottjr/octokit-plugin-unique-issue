@@ -1,6 +1,6 @@
 import { Octokit } from "@octokit/core";
 
-import { uniqueIssue } from "../src";
+import { uniqueIssue, composeCreateOrUpdateUniqueIssue } from "../src";
 
 describe("Smoke test", () => {
   it("{ uniqueIssue } export is a function", () => {
@@ -23,5 +23,9 @@ describe("Smoke test", () => {
     const testOctokit = new TestOctokit();
 
     expect(testOctokit.createOrUpdateUniqueIssue).toBeInstanceOf(Function);
+  });
+
+  it("{ composeCreateOrUpdateUniqueIssue } export is a function", () => {
+    expect(composeCreateOrUpdateUniqueIssue).toBeInstanceOf(Function);
   });
 });
