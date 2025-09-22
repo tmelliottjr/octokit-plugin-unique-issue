@@ -96,6 +96,6 @@
     ]
   },
   "dependencies": {
-    "@octokit/types": "^13.5.0"
+    "@octokit/types": "^15.0.0"
   }
 }
